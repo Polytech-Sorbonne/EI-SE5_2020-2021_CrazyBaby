@@ -12,12 +12,11 @@ char payload_humidity[10];
 
 // détecteur sonore
 const int potPin = 34;
-const int DpotPin = 5;
 int potValue = 0;
 int preValue = 3600;
 int loopcnt = 0;
 int deltacnt;          // le nombre du delta > seuil
-int detected;     
+int detected = 0;     
 
 // Pour accelerometre 
 
@@ -43,6 +42,9 @@ float rotX, rotY, rotZ;  //
 #define MSG_BUFFER_SIZE (50)
 char msg[MSG_BUFFER_SIZE];
 
+//LED
+#define LED 5
+
 // Network params
 const char* ssid = "Yingshanwifi";
 const char* password = "123456789";
@@ -55,8 +57,6 @@ const char* mqtt_hivemq = "broker.hivemq.com";
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-WiFiClient espClient2;
-PubSubClient client2(espClient2);
 
 StaticJsonDocument<200> json_doc;
 char json_output[100];
@@ -71,8 +71,6 @@ void setup() {
   setup_wifi();
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
-  client2.setServer(mqtt_hivemq, 1883);
-  client2.setCallback(callback);
   dht.begin();
 
   // Configuration du accelerometre
@@ -89,6 +87,8 @@ void setup() {
   Wire.write(ACCE_CONFIG); //Accessing the register 1C - Acccelerometer Configuration (Sec. 4.5) 
   Wire.write(0b00000000); //Setting the accel to +/- 2g
   Wire.endTransmission(true); 
+  
+  pinMode(LED, OUTPUT);
 }
 
 void setup_wifi() {
@@ -121,7 +121,22 @@ void callback(char* topic, byte* payload, unsigned int length) {
     Serial.print((char)payload[i]);
   }
   Serial.println();
- 
+ char p[length + 1];
+  memcpy(p, payload, length);
+  p[length] = NULL;
+
+  //message to led
+  if(String(topic)=="esp/led"){
+    
+    if(String(p)=="ON"){
+      Serial.println("Turn on the led \n");
+      digitalWrite(LED, HIGH);
+     }
+     else if(String(p)=="OFF"){
+      Serial.println("Turn off the led \n");
+      digitalWrite(LED, LOW);
+     }
+   }
 }
 
 
@@ -133,25 +148,7 @@ void reconnect() {
     //if (client.connect("arduinoClient")) {
     if (client.connect("arduinoClient", mqtt_user, mqtt_password)) {
       Serial.println("connected");
-    } else {
-      Serial.print("failed, rc=");
-      Serial.print(client.state());
-      Serial.println(" try again in 5 seconds");
-      // Wait 5 seconds before retrying
-      delay(5000);
-    }
-  }
-}
-
-void reconnect2() {
-  while (!client.connected()) {
-    Serial.print("Attempting MQTT connection...");
-    // Create a random client ID
-    String clientId = "ESP8266Client-";
-    clientId += String(random(0xffff), HEX);
-    // Attempt to connect
-    if (client.connect(clientId.c_str())) {
-      Serial.println("connected");
+      client.subscribe("esp/led");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -163,22 +160,24 @@ void reconnect2() {
 }
 
 void loop() {
-  int val;
   if (!client.connected()) {
     reconnect();
   }
-  if (!client2.connected()) {
-    reconnect2();
-  }
   client.loop();
-  client2.loop();
   readDht11();
   readAccel();
   readGyros();
   readSonore();
-  snprintf (msg, MSG_BUFFER_SIZE, "%d", detected);
-  detected = 0;
-  client2.publish("cry_detection", msg);
+  if(detected != 0){
+    snprintf (msg, MSG_BUFFER_SIZE, "%d", detected);
+    client.publish("cry_detection", msg);
+
+    Serial.println(detected);
+    Serial.println(msg);
+    Serial.println("----- Detected!!!!!!!!!! -----");
+    detected = 0;
+    }
+  delay(500);
 }
 
 void readDht11(){
@@ -221,7 +220,8 @@ void readSonore(){
     if(delta > 20){
       deltacnt++;
       if(deltacnt > 2){
-        detected=1;
+        // baby cry detected
+        detected = 1;
         deltacnt = 0;
         }
       }
@@ -249,15 +249,7 @@ void processAccelData(){
   gForceY -= 0.07;
   gForceZ -= 0.15;
   
-
   float Abs = abs(gForceX)+abs(gForceY)+abs(gForceZ);
-//  Serial.print(" Accel (g)");
-//  Serial.print(" absX=");
-//  Serial.print(abs(gForceX));
-//  Serial.print(" absY=");
-//  Serial.print(abs(gForceY));
-//  Serial.print(" absZ=");
-//  Serial.println(abs(gForceZ));
   dtostrf(Abs, 4, 2, payload_acc);
   
   json_doc2["Accelerate"] = payload_acc;
@@ -266,6 +258,10 @@ void processAccelData(){
   Serial.println( json_output2 ); 
   
   client.publish("esp/sensor2", json_output2, true);
+  if(Abs>2){
+    // Acceleration detected
+    detected = 2;
+    }
 }
 void readGyros(){
   // Utilisation du Gyroscopes
