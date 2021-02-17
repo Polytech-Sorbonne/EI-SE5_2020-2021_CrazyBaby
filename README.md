@@ -20,12 +20,12 @@ Selon les différents serveurs utilisés, l'ensemble de notre projet est divisé
 
 
 
-### Les codes utilisés dans le projet en utilisant notre propre serveur:
+### Les codes utilisés dans le projet en utilisant notre propre serveur(Dans propreServeur):
 
 | Nom du code   | Uploader vers  | Fonction réalisée | Protocole  |      |
 | ---------- | :-----------:  | :-----------: | :-----------: | :-----------: |
 | video.ino|  ESP32 CAM| Initialisation du module vidéo: ESP32 CAM Pour Home assistant | http|Accès via adresse IP |
-| version3.ino|ESP32_berceau| Dans le sens montant vers home assistant: DHT11, capteur de pression de l'aire, accéléromètre, détecteur sonore; Dans le sens descendant: activer LED depuis une interface web| mqtt et http | mosquitto en raspberry et accès via adresse IP|
+| version3.ino|ESP32_berceau| Dans le sens montant vers home assistant: DHT11, capteur de pression de l'aire, accéléromètre, détecteur sonore; Dans le sens descendant: activer LED depuis une interface web| mqtt et http | Mosquitto en raspberry et accès via adresse IP|
 | esp32Recv.ino    | ESP32_parent|Réception du signal buzzer du côté parent | mqtt    |Broker: mosquitto en raspberry|
 | serveur.py    | Raspberry |Sreveur en raspberry | http et mqtt    | Mosquitto en raspberry et accès via adresse IP|
 | crazyBaby.sql    | Raspberry  |database |    ||
