@@ -19,3 +19,12 @@ Selon les différents serveurs utilisés, l'ensemble de notre projet est divisé
 | parent_receive    | ESP32_parent|Réception du signal buzzer du côté parent | mqtt    |Broker:hivemq|
 
 
+### Les codes utilisés dans le projet en utilisant notre propre serveur:
+
+| Nom du code   | Uploader vers  | Fonction réalisée | Protocole  |      |
+| ---------- | :-----------:  | :-----------: | :-----------: | :-----------: |
+| video.ino|  ESP32 CAM| Initialisation du module vidéo: ESP32 CAM Pour Home assistant | http|Accès via adresse IP |
+| version3.ino|ESP32_berceau| Dans le sens montant vers home assistant: DHT11, capteur de pression de l'aire, accéléromètre, détecteur sonore; Dans le sens descendant: activer LED depuis une interface web| mqtt |Broker: mosquitto en raspberry|
+| esp32Recv.ino    | ESP32_parent|Réception du signal buzzer du côté parent | mqtt    |Broker: mosquitto en raspberry|
+| serveur.py    | Sreveur en raspberry | http et mqtt    |Broker: mosquitto en raspberry|
+| crazyBaby.sql    | database | nan    |Broker: nan|
