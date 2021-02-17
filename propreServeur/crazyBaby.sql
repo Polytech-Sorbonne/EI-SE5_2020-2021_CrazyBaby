@@ -68,31 +68,3 @@ INSERT INTO Logement (name, teleNum, ip, adress) VALUES ("Toto", "123456789", "9
 INSERT INTO Address (adressN, adressR, adressP) VALUES ("20", "pierre", "95000");
 INSERT INTO Poste (code, ville) VALUES ("95000", "Juessieu");
 
-INSERT INTO TempHumi (temp, humi, idType) VALUES ("1", "13", "1");
-INSERT INTO TempHumi (temp, humi, idType) VALUES ("13", "23", "1");
-INSERT INTO TempHumi (temp, humi, idType) VALUES ("22", "5", "1");
-INSERT INTO TempHumi (temp, humi, idType) VALUES ("2", "6", "1");
-INSERT INTO TempHumi (temp, humi, idType) VALUES ("4", "17", "1");
-
-INSERT INTO Mouvement (x, y, z, idType) VALUES ("1", "13", "1", "2");
-INSERT INTO Mouvement (x, y, z, idType) VALUES ("2", "12", "12", "2");
-INSERT INTO Mouvement (x, y, z, idType) VALUES ("3", "14", "5", "2");
-INSERT INTO Mouvement (x, y, z, idType) VALUES ("4", "11", "7", "2");
-INSERT INTO Mouvement (x, y, z, idType) VALUES ("4", "12", "1", "2");
-INSERT INTO Mouvement (x, y, z, idType) VALUES ("2", "17", "19", "2");
-
-
-INSERT INTO AirQualite (co2, tvoc, idType) VALUES ("12", "3", "2");
-INSERT INTO AirQualite (co2, tvoc, idType) VALUES ("11", "9", "2");
-INSERT INTO AirQualite (co2, tvoc, idType) VALUES ("9", "7", "2");
-INSERT INTO AirQualite (co2, tvoc, idType) VALUES ("22", "6", "2");
-INSERT INTO AirQualite (co2, tvoc, idType) VALUES ("42", "5", "2");
-INSERT INTO AirQualite (co2, tvoc, idType) VALUES ("2", "2", "2");
-
-
-INSERT INTO AirPressure (press, idType) VALUES ("2", "2");
-INSERT INTO AirPressure (press, idType) VALUES ("3", "2");
-INSERT INTO AirPressure (press, idType) VALUES ("4", "2");
-INSERT INTO AirPressure (press, idType) VALUES ("5", "2");
-INSERT INTO AirPressure (press, idType) VALUES ("2", "2");
-INSERT INTO AirPressure (press, idType) VALUES ("3", "2");
