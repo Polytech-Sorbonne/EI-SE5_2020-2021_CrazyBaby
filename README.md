@@ -19,6 +19,7 @@ Selon les différents serveurs utilisés, l'ensemble de notre projet est divisé
 | parent_receive    | ESP32_parent|Réception du signal buzzer du côté parent | mqtt    |Broker:hivemq|
 
 
+
 ### Les codes utilisés dans le projet en utilisant notre propre serveur:
 
 | Nom du code   | Uploader vers  | Fonction réalisée | Protocole  |      |
