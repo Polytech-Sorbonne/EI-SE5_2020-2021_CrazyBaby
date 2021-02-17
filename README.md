@@ -9,7 +9,7 @@ Selon les différents serveurs utilisés, l'ensemble de notre projet est divisé
 - version2 serveur_python.pdf              *Le registre de la deuxième version qui utilisent le serveur en Python* 
 
 
-### Les codes utilisés dans le projet:
+### Les codes utilisés dans le projet en utilisant homeAssistance:
 À ce stade, nous n'avons téléchargé que le code de la version un, et lui et la version deux doivent être améliorés.
 
 | Nom du code   | Uploader vers  | Fonction réalisée | Protocole  |      |
