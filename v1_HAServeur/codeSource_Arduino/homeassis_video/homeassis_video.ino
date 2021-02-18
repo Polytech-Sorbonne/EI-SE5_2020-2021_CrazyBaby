@@ -1,18 +1,4 @@
-/*********
-  Rui Santos
-  Complete project details at https://RandomNerdTutorials.com/esp32-cam-video-streaming-web-server-camera-home-assistant/
-  
-  IMPORTANT!!! 
-   - Select Board "AI Thinker ESP32-CAM"
-   - GPIO 0 must be connected to GND to upload a sketch
-   - After connecting GPIO 0 to GND, press the ESP32-CAM on-board RESET button to put your board in flashing mode
-  
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files.
-
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-*********/
+//Code source pour le ESP32 CAM
 
 #include "esp_camera.h"
 #include <WiFi.h>
@@ -27,9 +13,6 @@
 //Replace with your network credentials
 const char* ssid = "Yingshanwifi";
 const char* password = "123456789";
-
-//const char* ssid = "TP-Link_151E";
-//const char* password = "10581438";
 
 #define PART_BOUNDARY "123456789000000000000987654321"
 
@@ -175,7 +158,6 @@ static esp_err_t stream_handler(httpd_req_t *req){
     if(res != ESP_OK){
       break;
     }
-    //Serial.printf("MJPG: %uB\n",(uint32_t)(_jpg_buf_len));
   }
   return res;
 }
@@ -191,7 +173,6 @@ void startCameraServer(){
     .user_ctx  = NULL
   };
   
-  //Serial.printf("Starting web server on port: '%d'\n", config.server_port);
   if (httpd_start(&stream_httpd, &config) == ESP_OK) {
     httpd_register_uri_handler(stream_httpd, &index_uri);
   }
