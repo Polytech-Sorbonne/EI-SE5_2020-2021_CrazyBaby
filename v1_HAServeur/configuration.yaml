@@ -1,0 +1,46 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+mqtt:
+  broker: 192.168.43.62
+  port: 1883
+  client_id: homeassistant
+  keepalive: 60
+  username: homeassistant   #mqtt username
+  password: 123456789    #mqtt password
+  discovery: true
+  tls_insecure: false
+sensor:
+  - platform: mqtt
+    state_topic: "esp/sensor1"
+    name: 'Temperature'
+    unit_of_measurement: 'C'
+    value_template: '{{ value_json.Temperature }}'
+    device_class: temperature
+  - platform: mqtt
+    state_topic: "esp/sensor1"
+    name: 'Humidity'
+    unit_of_measurement: '%'
+    value_template: '{{ value_json.Humidity }}'
+    device_class: humidity
+  - platform: mqtt
+    state_topic: "esp/sensor2"
+    name: 'Accelerate'
+    unit_of_measurement: 'g'
+    value_template: '{{ value_json.Accelerate }}'
+    #device_class: humidity
+switch:
+  - platform: mqtt
+    command_topic: "esp/led"
+    name: "Bedroom Light"
+    payload_on: "ON"
+    payload_off: "OFF"
